@@ -22,19 +22,19 @@ public class Head {
         this.dir = dir;
     }
 
-    int getX() {
+    public int getX() {
         return x;
     }
 
-    void setX(int x) {
+    public void setX(int x) {
         this.x = x;
     }
 
-    int getY() {
+    public int getY() {
         return y;
     }
 
-    void setY(int y) {
+    public void setY(int y) {
         this.y = y;
     }
 

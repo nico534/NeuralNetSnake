@@ -24,11 +24,13 @@ public class FXGui implements Initializable {
 
     public Pane gamePane;
 
-    private Canvas gameField;
+    private GameField field;
 
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-
+        field = new GameField(gamePane.getPrefWidth(), gamePane.getPrefHeight());
+        gamePane.getChildren().add(field);
+        field.drawField();
     }
 }

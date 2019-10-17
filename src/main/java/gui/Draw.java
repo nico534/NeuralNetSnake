@@ -31,7 +31,7 @@ public class Draw extends JLabel {
 
         //draw Snakes
         for(Snake s: snakes) {
-            s.draw(g);
+            //s.draw(g);
         }
 
         //Draw Grid

@@ -3,6 +3,9 @@ package game;
 
 import Brain.NeuralNetwork;
 import actions.Main;
+import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.paint.Color;
+
 
 import java.awt.*;
 import java.io.File;
@@ -32,10 +35,11 @@ public class Snake {
     public Snake(int snakeNr) {
         this.snakeNr = snakeNr;
         Random r = new Random();
-        this.tailColor = new Color(r.nextInt(255), r.nextInt(255), r.nextInt(255));
-        this.headColor = new Color(tailColor.getRed() - (tailColor.getRed() / 4),
-                tailColor.getGreen() - (tailColor.getGreen() / 4),
-                tailColor.getBlue() - (tailColor.getBlue() / 4));
+
+        this.tailColor = new Color(r.nextDouble(), r.nextDouble(), r.nextDouble(), 1.0);
+        this.headColor = new Color(tailColor.getRed(), tailColor.getGreen(), tailColor.getBlue(), 0.4);
+
+
         this.head = new UIHead();
         init();
     }
@@ -47,10 +51,8 @@ public class Snake {
         }
         this.snakeNr = snakeNr;
         Random r = new Random();
-        this.tailColor = new Color(r.nextInt(255), r.nextInt(255), r.nextInt(255));
-        this.headColor = new Color(tailColor.getRed() - (tailColor.getRed() / 4),
-                tailColor.getGreen() - (tailColor.getGreen() / 4),
-                tailColor.getBlue() - (tailColor.getBlue() / 4));
+        this.tailColor = new Color(r.nextDouble(), r.nextDouble(), r.nextDouble(), 1.0);
+        this.headColor = new Color(tailColor.getRed(), tailColor.getGreen(), tailColor.getBlue(), 0.4);
         this.head = new UIHead(file);
         init();
     }
@@ -287,46 +289,27 @@ public class Snake {
         return false;
     }
 
-    public void draw(Graphics g) {
-        //just show best snake if showJustBest
-        if(Settings.showJustBest && !this.isBest && !Settings.humanPlayer){
-            return;
-        //by human player just show snake nr. 0
-        } else if(Settings.humanPlayer && this.snakeNr != 0){
-            return;
-        }
+    private Point ptc(int x, int y) {
+        Point p = new Point(0, 0);
+        p.x = x * GameValues.FIELD_SIZE.getValue() + GameValues.X_OFF.getValue();
+        p.y = y * GameValues.FIELD_SIZE.getValue() + GameValues.Y_OFF.getValue();
 
-        Point p;
-        //Draw Snake Tails
-        g.setColor(tailColor);
-        for (int i = 0; i < tails.size(); i++) {
-            p = ptc(tails.get(i).getX(), tails.get(i).getY());
-            g.fillRect(p.x, p.y, GameValues.FIELD_SIZE.getValue(), GameValues.FIELD_SIZE.getValue());
-        }
-
-        //Draw Snake Head
-        g.setColor(headColor);
-        p = ptc(head.getX(), head.getY());
-        g.fillRect(p.x, p.y, GameValues.FIELD_SIZE.getValue(), GameValues.FIELD_SIZE.getValue());
-
-        //Draw Fitness
-        if(Settings.showJustBest) {
-            g.drawString(Integer.toString(getFitness()), 5, 15);
-        } else {
-            g.drawString(Integer.toString(getFitness()), 5, 15 + 15 * snakeNr);
-        }
-
-        //Draw PickUp
-        g.setColor(headColor);
-        p = ptc(pickup.getX(), pickup.getY());
-        g.fillRect(p.x, p.y, GameValues.FIELD_SIZE.getValue(), GameValues.FIELD_SIZE.getValue());
-
-        if(Settings.showView) {
-            drawVision(g);
-        }
+        return p;
     }
 
-    private void drawVision(Graphics g) {
+    public int getFitness() {
+        if (health < 1) {
+            return 0;
+        }
+        return 20 * (tails.size() + 1) + 3 * health;
+    }
+
+    public Color getColor(){
+        return headColor;
+    }
+
+    /*
+    private void drawVision(GraphicsContext gc) {
         int[][] side;
         if (head.getDir() == Dir.UP) {
             side = DirMutilayer.UP.getValue();
@@ -347,7 +330,8 @@ public class Snake {
             p.x += 15;
             p.y += 15;
             float colorMultiplyer = head.getVision().get(i*3);
-            g.setColor(new Color( (int)(colorMultiplyer*headColor.getRed()), (int)(colorMultiplyer*headColor.getGreen()), (int)(colorMultiplyer*headColor.getBlue())));
+            gc.setFill(new Color(0.8,0.8,0.8,colorMultiplyer));
+            gc.strokeLine();
             g.drawLine(p2.x, p2.y, p.x, p.y);
 
             if (head.getDrowVision()[i][1] != 0) {
@@ -355,7 +339,7 @@ public class Snake {
                 p.x += 15;
                 p.y += 15;
                 colorMultiplyer = head.getVision().get(i*3 + 1);
-                g.setColor(new Color((int)(colorMultiplyer*255), 0, 0));
+                gc.setFill(new Color(1.0,0,0,colorMultiplyer));
                 g.drawLine(p2.x, p2.y, p.x, p.y);
                 g.drawOval(p.x, p.y, 20, 20);
             }
@@ -372,19 +356,6 @@ public class Snake {
         }
     }
 
-    private Point ptc(int x, int y) {
-        Point p = new Point(0, 0);
-        p.x = x * GameValues.FIELD_SIZE.getValue() + GameValues.X_OFF.getValue();
-        p.y = y * GameValues.FIELD_SIZE.getValue() + GameValues.Y_OFF.getValue();
-
-        return p;
-    }
-
-    public int getFitness() {
-        if (health < 1) {
-            return 0;
-        }
-        return 20 * (tails.size() + 1) + 3 * health;
-    }
+     */
 
 }
