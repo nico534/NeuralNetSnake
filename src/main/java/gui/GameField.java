@@ -22,8 +22,8 @@ public class GameField extends Canvas {
         this.fieldSize = Math.min((int)(width / fieldNr), (int)(height / fieldNr));
         System.out.println(fieldSize);
         System.out.println(width + " " + height);
-        xOff = (int)(width - fieldSize*fieldNr)/2;
-        yOff = (int)(height - fieldSize*fieldNr)/2;
+        xOff = (int)(width - fieldSize*fieldNr)/2 + fieldSpace/2;
+        yOff = (int)(height - fieldSize*fieldNr)/2 + fieldSpace/2;
         this.fieldSize -= fieldSpace;
         gc.setFill(Color.BLACK);
         gc.fillRect(0, 0, width, height);

@@ -19,7 +19,7 @@
             <Label fx:id="sleepTimeL" layoutX="94.0" layoutY="1.0" text="Label" />
             <Label fx:id="mutValL" layoutX="94.0" layoutY="50.0" text="Label" />
             <Label fx:id="mutRatL" layoutX="94.0" layoutY="106.0" text="Label" />
-            <Button fx:id="start" layoutX="12.0" layoutY="163.0" mnemonicParsing="false" prefWidth="120.0" text="Start" />
+            <Button fx:id="start" layoutX="12.0" layoutY="163.0" mnemonicParsing="false" onAction="#startGame" prefWidth="120.0" text="Start" />
             <Button fx:id="stop" layoutX="12.0" layoutY="202.0" mnemonicParsing="false" prefWidth="120.0" text="Stop" />
             <Button fx:id="save" layoutX="13.0" layoutY="241.0" mnemonicParsing="false" prefWidth="120.0" text="Save" />
          </children>
