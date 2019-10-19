@@ -36,7 +36,7 @@ public class FXGui implements Initializable {
 
     private GameField field;
     private GameStart game;
-    private boolean running;
+    private boolean gameRuns = false;
     private Snake[] snakes;
 
     private Random r = new Random();
@@ -51,6 +51,14 @@ public class FXGui implements Initializable {
         }
     };
 
+    private KeyFrame update = new KeyFrame(Duration.seconds(0.1), event -> {
+        for (Snake s : snakes) {
+            field.drawSnake(s);
+        }
+    });
+
+    private Timeline t1 = new Timeline(update);
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         field = new GameField(gamePane.getPrefWidth(), gamePane.getPrefHeight());
@@ -58,7 +66,7 @@ public class FXGui implements Initializable {
         field.drawField();
 
         snakes = new Snake[30];
-        if(Settings.justBest){
+        if (Settings.justBest) {
             snakes = new Snake[1];
             try {
                 snakes[0] = new Snake(0, file);
@@ -67,10 +75,9 @@ public class FXGui implements Initializable {
             }
         }
         for (int i = 0; i < snakes.length; i++) {
-            if(Settings.newGeneration){
+            if (Settings.newGeneration) {
                 snakes[i] = new Snake(i);
-            }
-            else {
+            } else {
                 try {
                     snakes[i] = new Snake(i, file);
                 } catch (IOException e) {
@@ -78,68 +85,55 @@ public class FXGui implements Initializable {
                 }
             }
         }
-
     }
 
 
-    public void startGame(){
+    public void startGame() {
+        gameRuns = true;
+        t1.setCycleCount(Timeline.INDEFINITE);
         gameTask.start();
-        running = true;
+        //t1.play();
+
     }
 
-    private void runnGame(){
-        while (running){
+    private void runnGame() {
+        while (gameRuns) {
             try {
                 Thread.sleep(Settings.sleepTime);
-                for(Snake s: snakes) {
-                    s.move();
-                    if (s.checkCollision()) {
-                        if(Settings.stopByCoolssion) {
-                            running = false;
-                        } else {
-                            Snake[] fittest = getFittest();
-                            s.clearSnake(fittest[0], fittest[1]);
-                        }
-                    }
-                    s.pickupCollision();
-                }
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
-            KeyFrame update = new KeyFrame(Duration.seconds(0.5), event -> {
-                for(Snake s: snakes){
-                    field.drawSnake(s);
-                }
-            });
-            Timeline t1 = new Timeline(update);
-            t1.setCycleCount(Timeline.INDEFINITE);
-            t1.play();
-        }
-        if(Settings.save) {
-            JFileChooser jfc = new JFileChooser("F:/IntelliJProjects/Snake");
-            jfc.showOpenDialog(null);
             for (Snake s : snakes) {
-                s.saveNN(jfc.getCurrentDirectory());
+                s.move();
+                if (s.checkCollision()) {
+                    if (Settings.stopByCoolssion) {
+                        gameRuns = false;
+                    } else {
+                        Snake[] fittest = getFittest();
+                        s.clearSnake(fittest[0], fittest[1]);
+                    }
+                }
+                s.pickupCollision();
             }
         }
     }
 
-    private Snake[] getFittest(){
+    private Snake[] getFittest() {
         Snake[] fittest = new Snake[2];
 
         int[][] snakeFitness = new int[snakes.length][2];
 
-        for(int i = 0; i < snakes.length; i++){
+        for (int i = 0; i < snakes.length; i++) {
             snakeFitness[i][0] = snakes[i].getFitness();
             snakeFitness[i][1] = i;
         }
 
         bubblesort(snakeFitness);
-        int index = (int)Math.round(Math.pow(r.nextGaussian(),2))%snakes.length;
+        int index = (int) Math.round(Math.pow(r.nextGaussian(), 2)) % snakes.length;
         fittest[0] = snakes[snakeFitness[index][1]];
-        int index2 = (int)Math.round(Math.pow(r.nextGaussian(),2))%snakes.length;
-        if(index2 == index){
-            index2 = (index2+1)%snakes.length;
+        int index2 = (int) Math.round(Math.pow(r.nextGaussian(), 2)) % snakes.length;
+        if (index2 == index) {
+            index2 = (index2 + 1) % snakes.length;
         }
         fittest[1] = snakes[snakeFitness[index2][1]];
         return fittest;
@@ -147,12 +141,12 @@ public class FXGui implements Initializable {
 
     private void bubblesort(int[][] zusortieren) {
         int[] temp;
-        for(int i=1; i<zusortieren.length; i++) {
-            for(int j=0; j<zusortieren.length-i; j++) {
-                if(zusortieren[j][0]<zusortieren[j+1][0]) {
-                    temp=zusortieren[j];
-                    zusortieren[j]=zusortieren[j+1];
-                    zusortieren[j+1]=temp;
+        for (int i = 1; i < zusortieren.length; i++) {
+            for (int j = 0; j < zusortieren.length - i; j++) {
+                if (zusortieren[j][0] < zusortieren[j + 1][0]) {
+                    temp = zusortieren[j];
+                    zusortieren[j] = zusortieren[j + 1];
+                    zusortieren[j + 1] = temp;
                 }
             }
         }
