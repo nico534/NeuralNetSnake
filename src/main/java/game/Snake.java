@@ -1,9 +1,5 @@
 package game;
 
-
-import Brain.NeuralNetwork;
-import actions.Main;
-import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
 
 
@@ -12,7 +8,6 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Random;
-import java.util.Set;
 
 public class Snake {
 
@@ -31,6 +26,7 @@ public class Snake {
 
     private boolean isBest = false;
     private long bestFor;
+    private boolean humanControlled = false;
 
 
     public Snake(int snakeNr) {
@@ -114,18 +110,17 @@ public class Snake {
 
     public void move() {
 
-
         //Best snake waits
-        if (getFitness() > Settings.maxHealth) {
+        if (getFitness() > Settings.maxHealth && !humanControlled) {
             Settings.maxHealth = getFitness();
             this.isBest = true;
             bestFor = Settings.generation;
-        } else if (getFitness() < Settings.maxHealth) {
+        } else if (getFitness() < Settings.maxHealth && !humanControlled) {
             this.isBest = false;
         }
 
         // Just best for 50 Generations
-        if (isBest && bestFor + 50 > Settings.generation && Settings.bestWaits) {
+        if (isBest && bestFor + 50 > Settings.generation && Settings.bestWaits && !humanControlled) {
             return;
         }
 
@@ -194,7 +189,9 @@ public class Snake {
             health-= 2;
         }
         waitToMove = false;
-        head.updateVision(board);
+        if(!humanControlled) {
+            head.updateVision(board);
+        }
     }
 
     private int setHeadTo(int x) {
@@ -237,16 +234,8 @@ public class Snake {
         }
     }
 
-    public ArrayList<Tail> getTails() {
-        return tails;
-    }
-
     public UIHead getHead() {
         return head;
-    }
-
-    public PickUp getPickup() {
-        return pickup;
     }
 
     public void pickupCollision() {
@@ -306,18 +295,6 @@ public class Snake {
         return 20 * (tails.size() + 1) + 3 * health;
     }
 
-    public Color getHeadColor(){
-        return headColor;
-    }
-
-    public Color getTailColor(){
-        return tailColor;
-    }
-
-    public Color getFoodColor(){
-        return foodColor;
-    }
-
 
     public Point[][] getVision() {
         int[][] side;
@@ -348,5 +325,9 @@ public class Snake {
 
     public FakeSnake createFakeSnake(){
         return new FakeSnake(headColor, tailColor, foodColor, pickup.copy(), new Point(head.getX(), head.getY()), getVision(), head.getVisionStrength(), new ArrayList<>(tails));
+    }
+
+    public void setHumanControlled(boolean controlled){
+        this.humanControlled = controlled;
     }
 }

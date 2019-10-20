@@ -21,7 +21,8 @@
             <Label fx:id="mutRatL" layoutX="94.0" layoutY="106.0" text="Label" />
             <Button fx:id="start" layoutX="12.0" layoutY="163.0" mnemonicParsing="false" onAction="#startGame" prefWidth="120.0" text="Start" />
             <Button fx:id="stop" layoutX="12.0" layoutY="202.0" mnemonicParsing="false" onAction="#stopGame" prefWidth="120.0" text="Stop" />
-            <Button fx:id="save" layoutX="13.0" layoutY="241.0" mnemonicParsing="false" prefWidth="120.0" text="Save" />
+            <Button fx:id="save" layoutX="13.0" layoutY="241.0" mnemonicParsing="false" onAction="#saveGame" prefWidth="120.0" text="Save" />
+            <Button fx:id="openSettings" layoutX="12.0" layoutY="279.0" mnemonicParsing="false" onAction="#openSettings" prefWidth="120.0" text="Settings" />
          </children>
       </AnchorPane>
       <Pane fx:id="gamePane" layoutX="194.0" layoutY="11.0" prefHeight="370.0" prefWidth="370.0" />

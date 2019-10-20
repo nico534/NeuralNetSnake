@@ -20,12 +20,13 @@ public class GameClock extends Thread {
 
     public void run() {
         while (FXGui.gameRuns) {
+            snakes[snakes.length-1].setHumanControlled(Settings.humanPlayer);
             try {
                 Thread.sleep(Settings.sleepTime);
                 for (Snake s : snakes) {
                     s.move();
                     if (s.checkCollision()) {
-                        if (Settings.stopByCoolssion) {
+                        if (Settings.stopByCollision) {
                             FXGui.gameRuns = false;
                         } else {
                             Snake[] fittest = getFittest();

@@ -6,6 +6,7 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.input.KeyEvent;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 
@@ -18,9 +19,20 @@ public class Main extends Application {
 
     @Override
     public void start(Stage primaryStage) throws IOException {
-        Parent mainScene = FXMLLoader.load(getClass().getResource("SnakeScene.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("SnakeScene.fxml"));
+        Parent mainWind = loader.load();
+        FXGui controller = loader.getController();
+        controller.createStages(primaryStage);
         primaryStage.setTitle("Neural Network");
-        primaryStage.setScene(new Scene(mainScene, 600, 430));
+        Scene mainScene = new Scene(mainWind);
+        mainScene.setOnKeyPressed(new EventHandler<KeyEvent>() {
+            @Override
+            public void handle(KeyEvent keyEvent) {
+                controller.keyboardPressed(keyEvent);
+            }
+        });
+
+        primaryStage.setScene(mainScene);
         primaryStage.setOnCloseRequest(new EventHandler<WindowEvent>() {
             @Override
             public void handle(WindowEvent windowEvent) {

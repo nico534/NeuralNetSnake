@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.layout.AnchorPane?>
+
+
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.SettingsController">
+   <children>
+      <CheckBox fx:id="humanPlayer" layoutX="14.0" layoutY="24.0" mnemonicParsing="false" prefWidth="140.0" text="Human player" />
+      <CheckBox fx:id="goThroughWalls" layoutX="14.0" layoutY="48.0" mnemonicParsing="false" prefWidth="140.0" text="Go through walls" />
+      <CheckBox fx:id="inherit" layoutX="14.0" layoutY="75.0" mnemonicParsing="false" prefWidth="140.0" text="Inherit" />
+      <CheckBox fx:id="die" layoutX="14.0" layoutY="101.0" mnemonicParsing="false" prefWidth="140.0" text="Die" />
+      <CheckBox fx:id="bot" layoutX="14.0" layoutY="128.0" mnemonicParsing="false" prefWidth="140.0" text="Bot" />
+      <CheckBox fx:id="showJustBest" layoutX="171.0" layoutY="24.0" mnemonicParsing="false" prefWidth="140.0" text="Show just best" />
+      <CheckBox fx:id="stopByCollision" layoutX="171.0" layoutY="48.0" mnemonicParsing="false" prefWidth="140.0" text="Stop by collision" />
+      <CheckBox fx:id="bestWaits" layoutX="171.0" layoutY="75.0" mnemonicParsing="false" prefWidth="140.0" text="Best waits" />
+      <CheckBox fx:id="showVision" layoutX="171.0" layoutY="101.0" mnemonicParsing="false" prefWidth="140.0" text="Show vision" />
+   </children>
+</AnchorPane>
