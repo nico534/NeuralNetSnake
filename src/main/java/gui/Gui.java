@@ -19,7 +19,7 @@ import java.beans.PropertyChangeListener;
 import java.util.Set;
 
 public class Gui {
-    JFrame jf;
+    /*JFrame jf;
     Draw d;
     Snake[] snakes;
 
@@ -156,4 +156,6 @@ public class Gui {
         jf.requestFocus();
         jf.setVisible(true);
     }
+
+     */
 }

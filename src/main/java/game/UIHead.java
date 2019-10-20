@@ -11,6 +11,7 @@ import java.util.Set;
 
 public class UIHead extends Head {
 
+    // for all visions: [i][0] = wall | [i][1] = Player | [i][2] = food
     private Matrix vision;
     private int[][] drowVision;
     private int[][] prevDVision;
@@ -19,9 +20,11 @@ public class UIHead extends Head {
 
     public UIHead() {
         super();
-        vision = new Matrix(7, 3, false);
+
         prevVision = new Matrix(7, 3, false);
         brain = new NeuralNetwork(Settings.NETWORK);
+
+        vision = new Matrix(7, 3, false);
         drowVision = new int[7][3];
         prevDVision = new int[7][3];
     }
@@ -54,6 +57,7 @@ public class UIHead extends Head {
         if(Settings.trainWithBackprob){
             turnTo = brain.train(vision, bestChoise(), Settings.learningRate);
         }
+        vision.setShowAsVector(false);
 
         if (Settings.humanPlayer) {
             return;
@@ -164,8 +168,8 @@ public class UIHead extends Head {
         return drowVision;
     }
 
-    Matrix getVision() {
-        return vision;
+    public Matrix getVisionStrength(){
+        return vision.copy();
     }
 
     private boolean detectWal(int xOff, int yOff) {

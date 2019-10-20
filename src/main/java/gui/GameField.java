@@ -1,12 +1,14 @@
 package gui;
 
 
+import game.FakeSnake;
 import game.Settings;
-import game.Snake;
 import game.Tail;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
+
+import java.awt.*;
 
 public class GameField extends Canvas {
     private GraphicsContext gc;
@@ -30,8 +32,9 @@ public class GameField extends Canvas {
     }
 
     public void drawField(){
+        gc.setFill(Color.BLACK);
+        gc.fillRect(0, 0, getWidth(), getHeight());
         gc.setFill(Color.LIGHTGRAY);
-        System.out.println(Color.LIGHTGRAY.getRed() + " " + Color.LIGHTGRAY.getGreen() +" "+ Color.LIGHTGRAY.getBlue() + " " + Color.LIGHTGRAY.getBrightness());
         for(int i = 0; i < fieldNr; i++){
             for(int j =0; j < fieldNr; j++){
                 drawFieldRect(i,j);
@@ -39,19 +42,69 @@ public class GameField extends Canvas {
         }
     }
 
-    public void drawSnake(Snake s){
-        gc.setFill(s.getColor());
+    public void drawSnake(FakeSnake s){
+
+        // draw head
+        gc.setFill(s.getHeadColor());
+        drawFieldRect(s.getHeadPoint().x, s.getHeadPoint().y);
+
+        //draw tail
+        gc.setFill(s.getTailColor());
         for(Tail t : s.getTails()){
             drawFieldRect(t.getX(), t.getY());
         }
-        drawFieldRect(s.getHead().getX(), s.getHead().getY());
+
+        // draw food
+        gc.setFill(s.getFoodColor());
+        drawFieldRect(s.getPickup().getX(), s.getPickup().getY());
+
+        //draw vision
+        if(Settings.showVision){
+            drowVison(s);
+        }
+    }
+
+    private void drowVison(FakeSnake s){
+        Point[][] seenPoints = s.getVision();
+        for(int i = 0; i < seenPoints.length; i++){
+            for(int j = 0; j < seenPoints[i].length; j++){
+                if(seenPoints[i][j] != null){
+                    gc.setStroke(getViewColor(s, j, s.getVisionDistance().get(i,j)));
+                    drawViewLine(seenPoints[i][j],s.getHeadPoint());
+                }
+            }
+        }
+    }
+
+    private Color getViewColor(FakeSnake s, int i, double intensity){
+        if(i == 0){
+            return new Color(1-intensity, 1-intensity, intensity, 1.0);
+        }else if(i == 1){
+            return new Color(intensity, 0, 1-intensity, 1.0);
+        }else if(i == 2){
+            return new Color(1-intensity, intensity, 0, 1.0);
+        }
+        return null;
     }
 
     public void drawFieldRect(int i, int j){
         gc.fillRect(i*(fieldSize + fieldSpace) + xOff, j*(fieldSize + fieldSpace) + yOff, fieldSize, fieldSize);
     }
 
-    public void drawLine(double v1, double v2, double v3, double v4){
-        gc.strokeLine(v1, v2, v3, v4);
+    private void drawViewLine(Point seenPoint, Point headPoint){
+        Point seenPos = getFieldPos(seenPoint);
+        Point headPpos = getFieldPos(headPoint);
+
+        // put vision in center
+        seenPos.x += fieldSize/2;
+        seenPos.y += fieldSize/2;
+        headPpos.x += fieldSize/2;
+        headPpos.y += fieldSize/2;
+
+        gc.strokeLine(headPpos.x, headPpos.y, seenPos.x, seenPos.y);
+    }
+
+    private Point getFieldPos(Point p){
+        return new Point(p.x*(fieldSize + fieldSpace) + xOff, p.y*(fieldSize + fieldSpace) + yOff);
     }
 }

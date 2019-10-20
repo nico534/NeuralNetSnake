@@ -9,6 +9,7 @@ import java.io.IOException;
 import java.util.Set;
 
 public class Main {
+    /*
 
     public static void main(String[] args) throws IOException {
         Snake[] snakes = new Snake[Settings.population];
@@ -30,8 +31,10 @@ public class Main {
 
         Snake s = new Snake(1);
         Gui g = new Gui(snakes);
-        GameClock gc = new GameClock(snakes);
+        GameClock gc = new GameClock(snakes, true);
         g.create();
         gc.start();
     }
+
+     */
 }

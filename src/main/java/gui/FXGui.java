@@ -3,6 +3,7 @@ package gui;
 import game.GameStart;
 import game.Settings;
 import game.Snake;
+import javafx.animation.AnimationTimer;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.concurrent.Service;
@@ -17,6 +18,7 @@ import javafx.util.Duration;
 import javax.swing.*;
 import java.io.IOException;
 import java.net.URL;
+import java.text.NumberFormat;
 import java.util.Random;
 import java.util.ResourceBundle;
 
@@ -36,28 +38,15 @@ public class FXGui implements Initializable {
 
     private GameField field;
     private GameStart game;
-    private boolean gameRuns = false;
+    public static boolean gameRuns = false;
     private Snake[] snakes;
 
     private Random r = new Random();
     private String file = "Snake";
 
-    private Service<String> gameTask = new Service<String>() {
-        @Override
-        protected Task<String> createTask() {
-            System.out.println("start game");
-            runnGame();
-            return null;
-        }
-    };
+    private Thread gameThread;
 
-    private KeyFrame update = new KeyFrame(Duration.seconds(0.1), event -> {
-        for (Snake s : snakes) {
-            field.drawSnake(s);
-        }
-    });
-
-    private Timeline t1 = new Timeline(update);
+    private AnimationTimer updateGameView;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -65,7 +54,7 @@ public class FXGui implements Initializable {
         gamePane.getChildren().add(field);
         field.drawField();
 
-        snakes = new Snake[30];
+        snakes = new Snake[1];
         if (Settings.justBest) {
             snakes = new Snake[1];
             try {
@@ -85,70 +74,54 @@ public class FXGui implements Initializable {
                 }
             }
         }
-    }
+        game = new GameStart(snakes);
 
+        gameThread = new Thread(() -> {
+            game.runn();
+        });
+
+        updateGameView =  new AnimationTimer() {
+            @Override
+            public void handle(long l) {
+                field.drawField();
+                for(Snake s: snakes) {
+                    field.drawSnake(s.createFakeSnake());
+                }
+            }
+        };
+
+        sleepTimeL.setText(Settings.sleepTime + "");
+        sleepTimeS.setValue(Settings.sleepTime);
+
+        mutValL.setText(Settings.mutationValue + "");
+        mutValS.setValue(Settings.mutationValue);
+
+        mutRatL.setText(Settings.mutationRate + "");
+        mutRatS.setValue(Settings.mutationRate);
+    }
 
     public void startGame() {
         gameRuns = true;
-        t1.setCycleCount(Timeline.INDEFINITE);
-        gameTask.start();
-        //t1.play();
-
+        gameThread.start();
+        System.out.println("start at");
+        updateGameView.start();
     }
 
-    private void runnGame() {
-        while (gameRuns) {
-            try {
-                Thread.sleep(Settings.sleepTime);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-            for (Snake s : snakes) {
-                s.move();
-                if (s.checkCollision()) {
-                    if (Settings.stopByCoolssion) {
-                        gameRuns = false;
-                    } else {
-                        Snake[] fittest = getFittest();
-                        s.clearSnake(fittest[0], fittest[1]);
-                    }
-                }
-                s.pickupCollision();
-            }
-        }
+    public void stopGame(){
+        gameRuns = false;
+        updateGameView.stop();
     }
 
-    private Snake[] getFittest() {
-        Snake[] fittest = new Snake[2];
-
-        int[][] snakeFitness = new int[snakes.length][2];
-
-        for (int i = 0; i < snakes.length; i++) {
-            snakeFitness[i][0] = snakes[i].getFitness();
-            snakeFitness[i][1] = i;
-        }
-
-        bubblesort(snakeFitness);
-        int index = (int) Math.round(Math.pow(r.nextGaussian(), 2)) % snakes.length;
-        fittest[0] = snakes[snakeFitness[index][1]];
-        int index2 = (int) Math.round(Math.pow(r.nextGaussian(), 2)) % snakes.length;
-        if (index2 == index) {
-            index2 = (index2 + 1) % snakes.length;
-        }
-        fittest[1] = snakes[snakeFitness[index2][1]];
-        return fittest;
+    public void updateSleepTime(){
+        sleepTimeL.setText((int)sleepTimeS.getValue() + "");
+        Settings.sleepTime = (int)sleepTimeS.getValue();
     }
-
-    private void bubblesort(int[][] zusortieren) {
-        int[] temp;
-        for (int i = 1; i < zusortieren.length; i++) {
-            for (int j = 0; j < zusortieren.length - i; j++) {
-                if (zusortieren[j][0] < zusortieren[j + 1][0]) {
-                    temp = zusortieren[j];
-                    zusortieren[j] = zusortieren[j + 1];
-                    zusortieren[j + 1] = temp;
-                }
-            }
-        }
+    public void updateMutValue(){
+        mutValL.setText((int)mutValS.getValue() + "");
+        Settings.mutationValue = (int)mutValS.getValue();
+    }
+    public void updateMutRate(){
+        mutRatL.setText((int)mutRatS.getValue() + "");
+        Settings.mutationRate = (int)mutRatS.getValue();
     }
 }

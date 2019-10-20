@@ -26,6 +26,7 @@ public class Snake {
     private int snakeNr;
     private Color headColor;
     private Color tailColor;
+    private Color foodColor;
     private byte[][] board;
 
     private boolean isBest = false;
@@ -38,7 +39,7 @@ public class Snake {
 
         this.tailColor = new Color(r.nextDouble(), r.nextDouble(), r.nextDouble(), 1.0);
         this.headColor = new Color(tailColor.getRed(), tailColor.getGreen(), tailColor.getBlue(), 0.4);
-
+        this.foodColor = new Color(0, r.nextDouble(), 0, 1.0);
 
         this.head = new UIHead();
         init();
@@ -51,8 +52,9 @@ public class Snake {
         }
         this.snakeNr = snakeNr;
         Random r = new Random();
-        this.tailColor = new Color(r.nextDouble(), r.nextDouble(), r.nextDouble(), 1.0);
-        this.headColor = new Color(tailColor.getRed(), tailColor.getGreen(), tailColor.getBlue(), 0.4);
+        this.headColor = new Color(r.nextDouble(), r.nextDouble(), r.nextDouble(), 1.0);
+        this.tailColor = new Color(headColor.getRed(), headColor.getGreen(), headColor.getBlue(), 0.5);
+        this.foodColor = new Color(0, r.nextDouble(), 0, 1.0);
         this.head = new UIHead(file);
         init();
     }
@@ -304,12 +306,20 @@ public class Snake {
         return 20 * (tails.size() + 1) + 3 * health;
     }
 
-    public Color getColor(){
+    public Color getHeadColor(){
         return headColor;
     }
 
-    /*
-    private void drawVision(GraphicsContext gc) {
+    public Color getTailColor(){
+        return tailColor;
+    }
+
+    public Color getFoodColor(){
+        return foodColor;
+    }
+
+
+    public Point[][] getVision() {
         int[][] side;
         if (head.getDir() == Dir.UP) {
             side = DirMutilayer.UP.getValue();
@@ -320,42 +330,23 @@ public class Snake {
         } else {
             side = DirMutilayer.LEFT.getValue();
         }
-        Point p;
-        Point p2 = ptc(head.getX(), head.getY());
-        p2.x += 15;
-        p2.y += 15;
+        Point[][] vision = new Point[7][3];
         for (int i = 0; i < 7; i++) {
-
-            p = ptc(head.getX() + side[i][0] * head.getDrowVision()[i][0], head.getY() + side[i][1] * head.getDrowVision()[i][0]);
-            p.x += 15;
-            p.y += 15;
-            float colorMultiplyer = head.getVision().get(i*3);
-            gc.setFill(new Color(0.8,0.8,0.8,colorMultiplyer));
-            gc.strokeLine();
-            g.drawLine(p2.x, p2.y, p.x, p.y);
-
+            // seen wall pos
+            vision[i][0] = new Point(head.getX() + side[i][0] * head.getDrowVision()[i][0], head.getY() + side[i][1] * head.getDrowVision()[i][0]);
             if (head.getDrowVision()[i][1] != 0) {
-                p = ptc(head.getX() + side[i][0] * head.getDrowVision()[i][1], head.getY() + side[i][1] * head.getDrowVision()[i][1]);
-                p.x += 15;
-                p.y += 15;
-                colorMultiplyer = head.getVision().get(i*3 + 1);
-                gc.setFill(new Color(1.0,0,0,colorMultiplyer));
-                g.drawLine(p2.x, p2.y, p.x, p.y);
-                g.drawOval(p.x, p.y, 20, 20);
+                // seen tail pos
+                vision[i][1] = new Point(head.getX() + side[i][0] * head.getDrowVision()[i][1], head.getY() + side[i][1] * head.getDrowVision()[i][1]);
             }
             if (head.getDrowVision()[i][2] != 0) {
-                p = ptc(head.getX() + side[i][0] * head.getDrowVision()[i][2], head.getY() + side[i][1] * head.getDrowVision()[i][2]);
-                p.x += 15;
-                p.y += 15;
-                colorMultiplyer = head.getVision().get(i*3 + 2);
-                g.setColor(new Color(0, (int)(colorMultiplyer*255), 0));
-                g.drawLine(p2.x, p2.y, p.x, p.y);
-                g.drawString(Float.toString(head.getVision().get(3 * i + 2)), 10, 35);
-                g.drawOval(p.x - 10, p.y - 10, 20, 20);
+                //seen food pos
+                vision[i][2] = new Point(head.getX() + side[i][0] * head.getDrowVision()[i][2], head.getY() + side[i][1] * head.getDrowVision()[i][2]);
             }
         }
+        return vision;
     }
 
-     */
-
+    public FakeSnake createFakeSnake(){
+        return new FakeSnake(headColor, tailColor, foodColor, pickup.copy(), new Point(head.getX(), head.getY()), getVision(), head.getVisionStrength(), new ArrayList<>(tails));
+    }
 }

@@ -6,6 +6,11 @@ public class PickUp {
     private int x,y;
     private Random rn = new Random();
 
+    private PickUp(int x, int y){
+        this.x = x;
+        this.y = y;
+    }
+
     public PickUp(){
         reset();
     }
@@ -21,5 +26,9 @@ public class PickUp {
 
     public int getY() {
         return y;
+    }
+
+    public PickUp copy(){
+        return new PickUp(x, y);
     }
 }
