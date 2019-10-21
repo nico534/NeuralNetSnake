@@ -71,13 +71,15 @@ public class FXGui implements Initializable {
     public void startGame() {
         NewGamePane ngp = null;
         try {
-            ngp = new NewGamePane();
+            ngp = new NewGamePane(this);
             settingsStage.setScene(new Scene(ngp));
             settingsStage.show();
         } catch (IOException e) {
             e.printStackTrace();
         }
-        /*
+    }
+
+    public void runGame(){
         gameRuns = true;
         updateGameView =  new AnimationTimer() {
             @Override
@@ -97,7 +99,6 @@ public class FXGui implements Initializable {
         System.out.println("start at");
         updateGameView.start();
 
-         */
     }
 
     public void stopGame(){
@@ -166,5 +167,9 @@ public class FXGui implements Initializable {
             case D:
                 game.getPlayerSnake().goRight();
         }
+    }
+
+    public GameStart getGame(){
+        return this.game;
     }
 }

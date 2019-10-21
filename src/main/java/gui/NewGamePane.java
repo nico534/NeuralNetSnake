@@ -17,7 +17,7 @@ public class NewGamePane extends BorderPane {
 
     private ChoiceBox<String> switchScenes;
 
-    public NewGamePane() throws IOException {
+    public NewGamePane(FXGui gui) throws IOException {
         switchScenes = new ChoiceBox<>(FXCollections.observableArrayList("Load Snakes", "New Snakes"));
         switchScenes.setValue("New Snakes");
         switchScenes.getSelectionModel().selectedIndexProperty().addListener((observableValue, number, t1) -> {
@@ -27,8 +27,17 @@ public class NewGamePane extends BorderPane {
                 setCenter(newSnakeScene);
             }
         });
-        newSnakeScene = new FXMLLoader(getClass().getResource("NewSnakeScene.fxml")).load();
-        loadSnakeScene = new FXMLLoader(getClass().getResource("LoadSnakeScene.fxml")).load();
+        FXMLLoader loadNew = new FXMLLoader(getClass().getResource("NewSnakeScene.fxml"));
+        newSnakeScene = loadNew.load();
+        NSCControll newController = loadNew.getController();
+        newController.setFxGui(gui);
+
+        FXMLLoader loadLoad = new FXMLLoader(getClass().getResource("LoadSnakeScene.fxml"));
+        loadSnakeScene = loadLoad.load();
+        LSCControll loadContrtoller = loadLoad.getController();
+        loadContrtoller.setFxGui(gui);
+
+
         setTop(switchScenes);
         setCenter(newSnakeScene);
     }

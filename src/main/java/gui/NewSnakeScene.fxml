@@ -1,23 +1,26 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.lang.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.Slider?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane prefHeight="260.0" prefWidth="200.0" style="-fx-border-color: gray;" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.NSCControll">
+<AnchorPane prefHeight="313.0" prefWidth="240.0" style="-fx-border-color: gray;" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.NSCControll">
    <children>
-      <Slider fx:id="populationS" layoutX="14.0" layoutY="42.0" />
-      <Label layoutX="14.0" layoutY="26.0" text="Population:" />
-      <Label fx:id="populationL" layoutX="124.0" layoutY="26.0" text="Label" />
+      <Slider fx:id="populationS" layoutX="14.0" layoutY="42.0" min="1.0" />
+      <Label layoutX="14.0" layoutY="13.0" text="Population:" />
+      <Label fx:id="populationL" layoutX="145.0" layoutY="13.0" text="Label" />
       <TextField fx:id="networkSize" layoutX="14.0" layoutY="73.0" promptText="Network Size" />
-      <Slider fx:id="mutValueS" layoutX="14.0" layoutY="136.0" />
-      <Slider fx:id="mutRateS" layoutX="14.0" layoutY="184.0" />
-      <Label layoutX="14.0" layoutY="120.0" text="Mutation Value" />
-      <Label layoutX="14.0" layoutY="168.0" text="Mutation Rate" />
-      <Label fx:id="mutValueL" layoutX="124.0" layoutY="120.0" text="Label" />
-      <Label fx:id="mutRateL" layoutX="124.0" layoutY="168.0" text="Label" />
-      <Button layoutX="66.0" layoutY="219.0" mnemonicParsing="false" text="Create" />
+      <Slider fx:id="mutValueS" layoutX="14.0" layoutY="157.0" max="300.0" min="1.0" />
+      <Slider fx:id="mutRateS" layoutX="14.0" layoutY="215.0" min="1.0" />
+      <Label layoutX="15.0" layoutY="130.0" text="Mutation Value:" />
+      <Label layoutX="10.0" layoutY="182.0" text="Mutation Rate:" />
+      <Label fx:id="mutValueL" layoutX="145.0" layoutY="130.0" text="Label" />
+      <Label fx:id="mutRateL" layoutX="145.0" layoutY="182.0" text="Label" />
+      <Button layoutX="67.0" layoutY="246.0" mnemonicParsing="false" text="Create" />
    </children>
 </AnchorPane>
