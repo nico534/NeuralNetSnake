@@ -1,7 +1,7 @@
 package game;
 
 public class Settings {
-    public static final int[] NETWORK = {21, 20, 20, 3};
+    public static int[] NETWORK = {21, 20, 20, 3};
     public static long generation = 0;
     public static int maxHealth = 0;
     public static int mutationValue = 100;
@@ -20,6 +20,7 @@ public class Settings {
     public static boolean humanPlayer = false;
     public static boolean bot = false;
     public static boolean stopByCollision = false;
+    public static boolean kollideWithOther = true;
 
     public static boolean trainWithBackprob = false;
     public static double learningRate = 0.3;

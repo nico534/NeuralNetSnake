@@ -10,9 +10,6 @@ import java.io.IOException;
 public class GameStart {
     private Snake[] snakes;
     private String file = "Snake";
-    public GameStart(){
-
-    }
 
     public void runn() {
         System.out.println(FXGui.gameRuns);
@@ -75,6 +72,13 @@ public class GameStart {
             return snakes[snakes.length-1];
         }
         return null;
+    }
+
+    public Snake getPlayerSnake2(){
+        if(snakes.length < 2){
+            return null;
+        }
+        return snakes[snakes.length -2];
     }
 
     public boolean hasSnakes(){

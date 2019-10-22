@@ -108,6 +108,11 @@ public class Snake {
         }
     }
 
+    public void clearSnake() {
+        head.resetPosition();
+        init();
+    }
+
     public void move() {
 
         //Best snake waits
@@ -280,6 +285,30 @@ public class Snake {
         return false;
     }
 
+    public boolean checkCollision(Snake s2) {
+
+        if (head.getX() < 0 || head.getX() > GameValues.NR_OF_FIELDS.getValue() - 1 || head.getY() < 0 || head.getY() > GameValues.NR_OF_FIELDS.getValue() - 1) {
+            return true;
+        }
+
+        for (Tail t : tails) {
+            if (t.getX() == head.getX() && t.getY() == head.getY() && !t.isWait()) {
+                return true;
+            } else if(t.getX() == s2.getHead().getX() && t.getY() == s2.getHead().getY() && !t.isWait()){
+                return true;
+            }
+        }
+        if (health < 1) {
+            return true;
+        }
+
+        return false;
+    }
+
+    private ArrayList<Tail> getTails(){
+        return this.tails;
+    }
+
     private Point ptc(int x, int y) {
         Point p = new Point(0, 0);
         p.x = x * GameValues.FIELD_SIZE.getValue() + GameValues.X_OFF.getValue();
@@ -329,5 +358,13 @@ public class Snake {
 
     public void setHumanControlled(boolean controlled){
         this.humanControlled = controlled;
+    }
+
+    public boolean getIsBest(){
+        return isBest;
+    }
+
+    public boolean getHumanControlled(){
+        return humanControlled;
     }
 }

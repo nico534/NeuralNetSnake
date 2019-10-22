@@ -10,14 +10,14 @@
 
 <AnchorPane prefHeight="260.0" prefWidth="200.0" style="-fx-border-color: gray;" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.LSCControll">
    <children>
-      <Button layoutX="14.0" layoutY="14.0" mnemonicParsing="false" onAction="#loadFile" text="Open folder" />
-      <Label alignment="TOP_LEFT" layoutX="14.0" layoutY="50.0" prefHeight="51.0" prefWidth="95.0" text="Label" wrapText="true" />
-      <Slider fx:id="mutValueS" layoutX="12.0" layoutY="117.0" />
-      <Slider fx:id="mutRateS" layoutX="12.0" layoutY="165.0" />
+      <Button layoutX="9.0" layoutY="7.0" mnemonicParsing="false" onAction="#loadFile" text="Open folder" />
+      <Label alignment="TOP_LEFT" layoutX="14.0" layoutY="48.0" prefHeight="53.0" prefWidth="171.0" text="Label" wrapText="true" />
+      <Slider fx:id="mutValueS" layoutX="12.0" layoutY="128.0" onMouseDragged="#updateMut" prefHeight="21.0" prefWidth="171.0" />
+      <Slider fx:id="mutRateS" layoutX="15.0" layoutY="176.0" onMouseDragged="#updateMut" prefHeight="21.0" prefWidth="171.0" />
       <Label layoutX="12.0" layoutY="101.0" text="Mutation Value" />
       <Label layoutX="12.0" layoutY="149.0" text="Mutation Rate" />
-      <Label fx:id="mutValueL" layoutX="122.0" layoutY="101.0" text="Label" />
-      <Label fx:id="mutRateL" layoutX="122.0" layoutY="149.0" text="Label" />
-      <Button fx:id="startButton" layoutX="45.0" layoutY="198.0" mnemonicParsing="false" prefHeight="39.0" prefWidth="84.0" text="Start" />
+      <Label fx:id="mutValueL" layoutX="143.0" layoutY="101.0" text="Label" />
+      <Label fx:id="mutRateL" layoutX="143.0" layoutY="149.0" text="Label" />
+      <Button fx:id="startButton" layoutX="58.0" layoutY="207.0" mnemonicParsing="false" prefHeight="39.0" prefWidth="84.0" text="Start" />
    </children>
 </AnchorPane>

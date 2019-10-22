@@ -22,6 +22,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.Random;
 import java.util.ResourceBundle;
+import java.util.Set;
 
 public class FXGui implements Initializable {
     public Button start;
@@ -69,6 +70,9 @@ public class FXGui implements Initializable {
     }
 
     public void startGame() {
+        game.init(2);
+        runGame();
+        /*
         NewGamePane ngp = null;
         try {
             ngp = new NewGamePane(this);
@@ -77,6 +81,7 @@ public class FXGui implements Initializable {
         } catch (IOException e) {
             e.printStackTrace();
         }
+         */
     }
 
     public void runGame(){
@@ -86,7 +91,9 @@ public class FXGui implements Initializable {
             public void handle(long l) {
                 field.drawField();
                 for(Snake s: game.getSnakes()) {
-                    field.drawSnake(s.createFakeSnake());
+                    //if(!Settings.justBest && s.getIsBest() || Settings.humanPlayer && s.getHumanControlled()) {
+                        field.drawSnake(s.createFakeSnake());
+                    //}
                 }
             }
         };
@@ -166,6 +173,18 @@ public class FXGui implements Initializable {
                 return;
             case D:
                 game.getPlayerSnake().goRight();
+                return;
+            case I:
+                game.getPlayerSnake2().goUp();
+                return;
+            case J:
+                game.getPlayerSnake2().goLeft();
+                return;
+            case K:
+                game.getPlayerSnake2().goDown();
+                return;
+            case L:
+                game.getPlayerSnake2().goRight();
         }
     }
 

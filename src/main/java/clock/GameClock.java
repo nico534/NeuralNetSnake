@@ -23,6 +23,20 @@ public class GameClock extends Thread {
             snakes[snakes.length-1].setHumanControlled(Settings.humanPlayer);
             try {
                 Thread.sleep(Settings.sleepTime);
+                if(Settings.kollideWithOther){
+                    Snake s1 = snakes[snakes.length - 1];
+                    Snake s2 = snakes[snakes.length - 2];
+                    s1.move();
+                    s2.move();
+                    if(s1.checkCollision(s2)){
+                        s1.clearSnake();
+                    }else if(s2.checkCollision(s1)){
+                        s2.clearSnake();
+                    }
+                    s1.pickupCollision();
+                    s2.pickupCollision();
+                    continue;
+                }
                 for (Snake s : snakes) {
                     s.move();
                     if (s.checkCollision()) {

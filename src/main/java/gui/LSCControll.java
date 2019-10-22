@@ -40,9 +40,8 @@ public class LSCControll implements Initializable {
         startButton.setDisable(true);
     }
 
-    public void setUp(FXGui gui, Stage loadStage){
+    public void setUp(FXGui gui){
         this.gui = gui;
-        this.loadStage = loadStage;
     }
 
     public void runGame(){
@@ -56,6 +55,11 @@ public class LSCControll implements Initializable {
         if(loadetFile.listFiles().length < 1){
             startButton.setDisable(false);
         }
+    }
+
+    public void updateMut(){
+        Settings.mutationRate = (int)mutRateS.getValue();
+        Settings.mutationValue = (int)mutValueS.getValue();
     }
 
 }

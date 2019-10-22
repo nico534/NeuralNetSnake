@@ -35,7 +35,7 @@ public class NewGamePane extends BorderPane {
         FXMLLoader loadLoad = new FXMLLoader(getClass().getResource("LoadSnakeScene.fxml"));
         loadSnakeScene = loadLoad.load();
         LSCControll loadContrtoller = loadLoad.getController();
-        loadContrtoller.setFxGui(gui);
+        loadContrtoller.setUp(gui);
 
 
         setTop(switchScenes);
