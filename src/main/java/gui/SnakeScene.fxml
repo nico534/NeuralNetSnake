@@ -1,12 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.lang.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.Slider?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.Pane?>
 
-<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.FXGui">
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.FXGui">
    <children>
       <AnchorPane layoutX="2.0" layoutY="5.0" prefHeight="382.0" prefWidth="143.0">
          <children>
@@ -20,7 +23,7 @@
             <Label fx:id="mutValL" layoutX="94.0" layoutY="50.0" text="Label" />
             <Label fx:id="mutRatL" layoutX="94.0" layoutY="106.0" text="Label" />
             <Button fx:id="start" layoutX="12.0" layoutY="163.0" mnemonicParsing="false" onAction="#startGame" prefWidth="120.0" text="Start" />
-            <Button fx:id="stop" layoutX="12.0" layoutY="202.0" mnemonicParsing="false" onAction="#stopGame" prefWidth="120.0" text="Stop" />
+            <Button fx:id="stop" layoutX="12.0" layoutY="202.0" mnemonicParsing="false" onAction="#stopGame" prefWidth="120.0" text="Pause" />
             <Button fx:id="save" layoutX="13.0" layoutY="241.0" mnemonicParsing="false" onAction="#saveGame" prefWidth="120.0" text="Save" />
             <Button fx:id="openSettings" layoutX="12.0" layoutY="279.0" mnemonicParsing="false" onAction="#openSettings" prefWidth="120.0" text="Settings" />
          </children>

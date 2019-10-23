@@ -22,7 +22,6 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.Random;
 import java.util.ResourceBundle;
-import java.util.Set;
 
 public class FXGui implements Initializable {
     public Button start;
@@ -67,21 +66,19 @@ public class FXGui implements Initializable {
 
         mutRatL.setText(Settings.mutationRate + "");
         mutRatS.setValue(Settings.mutationRate);
+
+        stop.setDisable(true);
     }
 
     public void startGame() {
-        game.init(2);
-        runGame();
-        /*
         NewGamePane ngp = null;
         try {
-            ngp = new NewGamePane(this);
+            ngp = new NewGamePane(this, settingsStage);
             settingsStage.setScene(new Scene(ngp));
             settingsStage.show();
         } catch (IOException e) {
             e.printStackTrace();
         }
-         */
     }
 
     public void runGame(){
@@ -91,9 +88,9 @@ public class FXGui implements Initializable {
             public void handle(long l) {
                 field.drawField();
                 for(Snake s: game.getSnakes()) {
-                    //if(!Settings.justBest && s.getIsBest() || Settings.humanPlayer && s.getHumanControlled()) {
+                    if(!Settings.justBest && s.getIsBest() || Settings.humanPlayer && s.getHumanControlled()) {
                         field.drawSnake(s.createFakeSnake());
-                    //}
+                    }
                 }
             }
         };
@@ -103,14 +100,24 @@ public class FXGui implements Initializable {
         });
 
         gameThread.start();
-        System.out.println("start at");
+        System.out.println("start Game");
         updateGameView.start();
+        stop.setDisable(false);
 
     }
 
     public void stopGame(){
-        gameRuns = false;
-        updateGameView.stop();
+        if(!game.hasSnakes()){
+            return;
+        }
+        if(gameRuns) {
+            gameRuns = false;
+            updateGameView.stop();
+            stop.setText("Continue");
+        } else {
+            runGame();
+            stop.setText("Pause");
+        }
     }
 
     public void saveGame(){

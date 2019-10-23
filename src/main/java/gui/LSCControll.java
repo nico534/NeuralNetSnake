@@ -40,19 +40,22 @@ public class LSCControll implements Initializable {
         startButton.setDisable(true);
     }
 
-    public void setUp(FXGui gui){
+    public void setUp(FXGui gui, Stage s){
         this.gui = gui;
+        this.loadStage = s;
     }
 
     public void runGame(){
         this.gui.getGame().init(loadetFile.listFiles().length -1, loadetFile);
+        this.gui.runGame();
     }
 
     public void loadFile(){
         DirectoryChooser saveDirChooser = new DirectoryChooser();
         saveDirChooser.setTitle("Save snakes");
         this.loadetFile = saveDirChooser.showDialog(loadStage);
-        if(loadetFile.listFiles().length < 1){
+        if(loadetFile != null && loadetFile.listFiles() != null && loadetFile.listFiles().length > 0){
+            System.out.println(loadetFile.listFiles().length);
             startButton.setDisable(false);
         }
     }

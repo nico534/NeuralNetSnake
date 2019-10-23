@@ -9,7 +9,6 @@ import java.io.IOException;
 
 public class GameStart {
     private Snake[] snakes;
-    private String file = "Snake";
 
     public void runn() {
         System.out.println(FXGui.gameRuns);
@@ -19,24 +18,8 @@ public class GameStart {
 
     public void init(int snakeCount){
         snakes = new Snake[snakeCount];
-        if (Settings.justBest) {
-            snakes = new Snake[1];
-            try {
-                snakes[0] = new Snake(0, file);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
         for (int i = 0; i < snakes.length; i++) {
-            if (Settings.newGeneration) {
-                snakes[i] = new Snake(i);
-            } else {
-                try {
-                    snakes[i] = new Snake(i, file);
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
+            snakes[i] = new Snake(i);
         }
     }
 

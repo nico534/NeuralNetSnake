@@ -18,6 +18,6 @@
       <Label layoutX="12.0" layoutY="149.0" text="Mutation Rate" />
       <Label fx:id="mutValueL" layoutX="143.0" layoutY="101.0" text="Label" />
       <Label fx:id="mutRateL" layoutX="143.0" layoutY="149.0" text="Label" />
-      <Button fx:id="startButton" layoutX="58.0" layoutY="207.0" mnemonicParsing="false" prefHeight="39.0" prefWidth="84.0" text="Start" />
+      <Button fx:id="startButton" layoutX="58.0" layoutY="207.0" mnemonicParsing="false" onAction="#runGame" prefHeight="39.0" prefWidth="84.0" text="Start" />
    </children>
 </AnchorPane>
